@@ -3,10 +3,23 @@ class RoomsController < ApplicationController
   def index
   end
 
+  def new
+    @room = Room.new
+  end
+
   def create
-    @room = Room.find(params[:room_id])
-    @message = @room.messages.new(message_params)
-    @message.save
+    @room = Room.new(room_params)
+    if @room.save
+      redirect_to root_path
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    room = Room.find(params[:id])
+    room.destroy
+    redirect_to root_path
   end
 
   private
